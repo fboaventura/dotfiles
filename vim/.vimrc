@@ -69,4 +69,5 @@ nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
 let g:airline_powerline_symbols = 1
+let g:airline_theme='molokai'
 set laststatus=2
