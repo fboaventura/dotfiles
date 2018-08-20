@@ -1,13 +1,17 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.gem/ruby/2.3.0/bin:/usr/local/bin:$PATH:/sbin:/usr/sbin:/usr/local/sbin:$HOME/sbin
+export PATH=$HOME/bin:$GOPATH/go/bin:$HOME/.gem/ruby/2.1.0/bin:/usr/local/bin:$PATH:/sbin:/usr/sbin:/usr/local/sbin:$HOME/sbin
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/frederico/.oh-my-zsh
+export ZSH=${HOME}/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="gianu"
+if [[ -n ${SSH_CONNECTION} ]]; then
+    ZSH_THEME="ys"
+else
+    ZSH_THEME="gianu"
+fi
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -37,7 +41,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -51,7 +55,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux docker docker-composer gpg-agent)
+plugins=(aws ubuntu sudo ssh-agent screen rsync systemd git docker docker-compose gpg-agent ruby python django golang digitalocean)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -83,6 +87,24 @@ export SSH_KEY_PATH="~/.ssh/rsa_id"
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="mate ~/.zshrc"
-alias ohmyzsh="mate ~/.oh-my-zsh"
+alias zshconfig="${EDITOR} ~/.zshrc"
+alias ohmyzsh="${EDITOR} ~/.oh-my-zsh"
+alias meuip="curl http://tnkip.cf"
+
+export GOPATH="/home/frederico/dev/golang"
+export GOROOT="/usr/lib/go-1.10"
+export GOTOOLDIR="/usr/lib/go-1.10/pkg/tool/linux_amd64"
+
+setopt AUTO_CD
 #source /usr/share/nvm/init-nvm.sh
+# Setup local network to Docker usage of apt-cache-ng
+ip addr ls dev lo |grep 192.168.168.167 >/dev/null
+if [ $? -ne 0 ]; then
+  sudo ip addr add 192.168.168.167/24 dev lo
+fi
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/frederico/google-cloud-sdk/path.zsh.inc' ]; then source '/home/frederico/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/frederico/google-cloud-sdk/completion.zsh.inc' ]; then source '/home/frederico/google-cloud-sdk/completion.zsh.inc'; fi
